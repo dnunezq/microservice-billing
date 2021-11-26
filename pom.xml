@@ -14,7 +14,7 @@
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>1.8.0_111</java.version>
 	</properties>
         
         
@@ -52,11 +52,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-                                <version>3.8.4</version>
-			</plugin>
-                        <plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+                                <version>3.6.3</version>
+			
+                        
 				<configuration>
 					<excludes>
 						<exclude>
@@ -65,8 +63,8 @@
 						</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
-		</plugins>
+			</plugin>	
+                </plugins>
 	
         
         
