@@ -1,12 +1,12 @@
-package com.MisionTIC_T2_P42.account_ms.controllers;
+package com.MisionTIC_T2_P42.billing_ms.controllers;
 
 
-import com.MisionTIC_T2_P42.account_ms.exceptions.AccountNotFoundException;
-import com.MisionTIC_T2_P42.account_ms.exceptions.InsufficientBalanceException;
-import com.MisionTIC_T2_P42.account_ms.models.Account;
-import com.MisionTIC_T2_P42.account_ms.models.Transaction;
-import com.MisionTIC_T2_P42.account_ms.repositories.AccountRepository;
-import com.MisionTIC_T2_P42.account_ms.repositories.TransactionRepository;
+import com.MisionTIC_T2_P42.billing_ms.exceptions.AccountNotFoundException;
+import com.MisionTIC_T2_P42.billing_ms.exceptions.InsufficientBalanceException;
+import com.MisionTIC_T2_P42.billing_ms.models.Account;
+import com.MisionTIC_T2_P42.billing_ms.models.Transaction;
+import com.MisionTIC_T2_P42.billing_ms.repositories.AccountRepository;
+import com.MisionTIC_T2_P42.billing_ms.repositories.TransactionRepository;
 import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;

@@ -1,6 +1,6 @@
-package com.MisionTIC_T2_P42.account_ms.repositories;
+package com.MisionTIC_T2_P42.billing_ms.repositories;
 
-import com.MisionTIC_T2_P42.account_ms.models.Transaction;
+import com.MisionTIC_T2_P42.billing_ms.models.Transaction;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 

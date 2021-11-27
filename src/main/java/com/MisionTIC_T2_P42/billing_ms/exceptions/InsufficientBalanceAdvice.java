@@ -1,4 +1,4 @@
-package com.MisionTIC_T2_P42.account_ms.exceptions;
+package com.MisionTIC_T2_P42.billing_ms.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,4 +1,4 @@
-package com.MisionTIC_T2_P42.account_ms;
+package com.MisionTIC_T2_P42.billing_ms;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

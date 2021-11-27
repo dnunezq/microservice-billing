@@ -1,4 +1,4 @@
-package com.MisionTIC_T2_P42.account_ms;
+package com.MisionTIC_T2_P42.billing_ms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

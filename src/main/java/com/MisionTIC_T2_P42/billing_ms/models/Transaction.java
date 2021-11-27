@@ -1,4 +1,4 @@
-package com.MisionTIC_T2_P42.account_ms.models;
+package com.MisionTIC_T2_P42.billing_ms.models;
 
 import org.springframework.data.annotation.Id;
 import java.util.Date;

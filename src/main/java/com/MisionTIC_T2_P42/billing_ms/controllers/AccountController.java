@@ -1,8 +1,8 @@
-package com.MisionTIC_T2_P42.account_ms.controllers;
+package com.MisionTIC_T2_P42.billing_ms.controllers;
 
-import com.MisionTIC_T2_P42.account_ms.exceptions.AccountNotFoundException;
-import com.MisionTIC_T2_P42.account_ms.models.Account;
-import com.MisionTIC_T2_P42.account_ms.repositories.AccountRepository;
+import com.MisionTIC_T2_P42.billing_ms.exceptions.AccountNotFoundException;
+import com.MisionTIC_T2_P42.billing_ms.models.Account;
+import com.MisionTIC_T2_P42.billing_ms.repositories.AccountRepository;
 import org.springframework.web.bind.annotation.*;
 @RestController
 public class AccountController {
