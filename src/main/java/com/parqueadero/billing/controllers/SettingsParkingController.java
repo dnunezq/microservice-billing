@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Optional;
+//import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -28,6 +28,9 @@ public class SettingsParkingController {
 
         newSettingsParking.setCapacity(settingsParking.getCapacity());
         newSettingsParking.setMinutePrice(settingsParking.getMinutePrice());
+        newSettingsParking.setPrefix(settingsParking.getPrefix());
+        newSettingsParking.setSerialBillInit(settingsParking.getSerialBillInit());
+        newSettingsParking.setSerialBillEnd(settingsParking.getSerialBillEnd());
         settingsParkingRepository.save(newSettingsParking);
         return newSettingsParking;
     }

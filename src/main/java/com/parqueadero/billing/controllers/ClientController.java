@@ -73,8 +73,37 @@ public class ClientController {
         exitClient.setCost(client.getCost());
         exitClient.setUseTime(client.getUseTime());
         exitClient.setExitDate(client.getExitDate());
+        exitClient.setSerialBill(constructSerialBill(exitClient));
         clientRepository.save(exitClient);
         return exitClient;
     }
+
+    public Integer constructSerialBill(Client exitClient){
+        List <Client> listBill = clientRepository.findAll();
+        SettingsParking sp = new SettingsParking();
+        int pfx = sp.getPrefix();
+        int sBI = sp.getSerialBillInit();
+        int sBE = sp.getSerialBillEnd();
+        if(listBill.isEmpty()){         
+            return concatenateDigits(pfx,sBI,sBE)+1;
+        }else if(listBill.get(listBill.size()-1) > sBI && < sBE){
+            return concatenateDigits(pfx,sBI,sBE)+1;
+
+        };
+        return sBE;
+    }
+    //function that concatenate prefix serialBillInit serialBillEnd and return a integer
+    public static Integer concatenateDigits(int... digits) {
+        StringBuilder sb = new StringBuilder(digits.length);
+        for (int digit : digits) {
+          sb.append(digit);
+        }
+        return new Integer(sb.toString());
+     }
+
+     public  Integer eliminatePrefix(int serialBill){
+         
+        }
+     }
 
 }
