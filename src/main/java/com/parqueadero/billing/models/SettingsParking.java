@@ -5,12 +5,13 @@ import org.springframework.data.annotation.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
+@Setter
 public class SettingsParking {
     @Id
-    @Getter @Setter private String admin;
-    @Getter @Setter private int minutePrice;
-    @Getter @Setter private int capacity;
-
+    private String admin;
+    private int minutePrice;
+    private int capacity;
 
 
     public SettingsParking() {
