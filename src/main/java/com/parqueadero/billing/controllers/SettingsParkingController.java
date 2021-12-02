@@ -23,14 +23,13 @@ public class SettingsParkingController {
     @PostMapping("/Settings")
     SettingsParking updateSettings(@RequestBody SettingsParking settingsParking) {
         List<SettingsParking> settings=settingsParkingRepository.findAll();
-        SettingsParking newSettingsParking;
-        newSettingsParking=settings.get(0);
+        SettingsParking newSettingsParking = settings.get(0);
 
         newSettingsParking.setCapacity(settingsParking.getCapacity());
         newSettingsParking.setMinutePrice(settingsParking.getMinutePrice());
         newSettingsParking.setPrefix(settingsParking.getPrefix());
-        newSettingsParking.setSerialBillInit(settingsParking.getSerialBillInit());
-        newSettingsParking.setSerialBillEnd(settingsParking.getSerialBillEnd());
+        newSettingsParking.setBillNumberInit(settingsParking.getBillNumberInit());
+        newSettingsParking.setBillNumberEnd(settingsParking.getBillNumberEnd());
         settingsParkingRepository.save(newSettingsParking);
         return newSettingsParking;
     }
