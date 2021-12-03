@@ -82,11 +82,9 @@ public class ClientController {
             throw new ClientNotFoundException("el vehiculo no se encuentra en el parqueadero");
         }
         exitClient.setState("inactive");
-        List<SettingsParking> settings=settingsParkingRepository.findAll();
-        int cost=settings.get(0).getMinutePrice();
-        client.setExitDate(new Date());
-        client.setUseTime((int)((double) ((client.getExitDate().getTime()-client.getEntryDate().getTime())/60000)));
-        client.setCost((double)client.getUseTime()*cost);      
+        exitClient.setExitDate(client.getExitDate());
+        exitClient.setUseTime(client.getUseTime());
+        exitClient.setCost(client.getCost());      
         exitClient.setBillNumber(constructBillNumber());
         clientRepository.save(exitClient);
         return exitClient;
