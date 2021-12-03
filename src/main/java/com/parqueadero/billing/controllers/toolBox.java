@@ -9,7 +9,13 @@ public class toolBox {
           sb.append(digit);
         }
        //convert the string to Long
+       try{
         return Long.parseLong(sb.toString());
+       }catch(NumberFormatException e){
+           e.printStackTrace();
+           e.getCause();
+       }
+        return null;
     }
 
 
