@@ -15,7 +15,7 @@ import lombok.ToString;
 public class Client {
     @Id
      private  String id;
-     @Setter private Long BillNumber;
+     @Setter private String billNumber;
      @Setter private String licensePlate;
      @Setter private Date entryDate;
      @Setter private Date exitDate;

@@ -28,9 +28,14 @@ public class ClientController {
     }
 
     //endpoint for active clients
-    @GetMapping("/Clients")
-    Iterable<Client> getActiveClients() {
-        return clientRepository.findByState("active");
+    @GetMapping("/clients")
+    ClientsAndSpace getActiveClients() {
+        ClientsAndSpace result=new ClientsAndSpace();
+        List <SettingsParking> settings=settingsParkingRepository.findAll();
+        List<Client> clients=clientRepository.findByState("active");
+        result.setClients(clients);
+        result.setCapacity(settings.get(0).getCapacity()-clients.size());
+        return result;
     }
     //endpoint for inactive clients
     @GetMapping("/historical")
@@ -38,7 +43,7 @@ public class ClientController {
         return clientRepository.findByState("inactive");
     }
     //endpoint to create a new client
-    @PostMapping("/create")
+    @PostMapping("/clients")
     Client CreateClient(@RequestBody Client client) {
         List <Client> clients=clientRepository.findByState("active");
         List <SettingsParking> settings=settingsParkingRepository.findAll();
@@ -54,7 +59,7 @@ public class ClientController {
         }
     }
     //endpoint to consult client's billing
-    @GetMapping("/Clients/{licensePlate}")
+    @GetMapping("/clients/{licensePlate}")
     Client getBillingClient(@PathVariable String licensePlate) {
         List<Client> activeClients = clientRepository.findByLicensePlateAndState(licensePlate,"active");
         if(activeClients.size()==0){
@@ -73,7 +78,7 @@ public class ClientController {
         return client;
     }
     //Endpoint to save client billing
-    @PostMapping("/Clients/{licensePlate}")
+    @PostMapping("/clients/{licensePlate}")
     Client SaveBillingClient(@RequestBody Client client) {
         Client exitClient;
         try{
@@ -84,7 +89,8 @@ public class ClientController {
         exitClient.setState("inactive");
         exitClient.setExitDate(client.getExitDate());
         exitClient.setUseTime(client.getUseTime());
-        exitClient.setCost(client.getCost());      
+        exitClient.setCost(client.getCost());
+
         exitClient.setBillNumber(constructBillNumber());
         clientRepository.save(exitClient);
         return exitClient;
@@ -94,46 +100,43 @@ public class ClientController {
 
 
 
-    public Long constructBillNumber() {
+    public String constructBillNumber() {
 
-        Long billNumber;
+
         List <SettingsParking> settings       = settingsParkingRepository.findAll();
         SettingsParking lastSettings          = settings.get(0);
-        Long pfx                              = lastSettings.getPrefix();
+        String pfx                            = lastSettings.getPrefix();
         Long bNI                              = lastSettings.getBillNumberInit();
-        Long lastBillNumber                   = lastSettings.getLastBillNumber();
+        Long bNE                             = lastSettings.getBillNumberEnd();
+        String lastBillNumber                  = lastSettings.getLastBillNumber();
+        String billNumber=pfx;
+        if(lastBillNumber.equals("0")){
+            billNumber +=String.valueOf(bNI);
+        }
+        else{
+            int prefixLength                = lastSettings.getPrefix().length();
+            Long numericBillNumber          = Long.parseLong(lastBillNumber.substring(prefixLength));
 
-        if(lastBillNumber!=0){     
+            if(numericBillNumber >=bNI && numericBillNumber <bNE  ) {
 
-            Long prefixLength                = (long) lastSettings.getPrefix().toString().length();
-            Long bNE                         = lastSettings.getBillNumberEnd();          
-            lastBillNumber                   = toolBox.eliminatePrefix(lastBillNumber, prefixLength);
+                billNumber +=String.valueOf(numericBillNumber + 1);
 
-            if(lastBillNumber > bNE - 1000) {
 
-                billNumber = toolBox.concatenateDigits(pfx, bNI) + 1;
-                lastSettings.setLastBillNumber(billNumber);
-                settingsParkingRepository.save(lastSettings);
-                return billNumber;
-
-            } else if (lastBillNumber == bNE) {
+            } else if (numericBillNumber >=bNE) {
 
                 throw new SetBillNumberExecption("Debe solicitar una nueva resolución a la DIAN");
 
-            } else if (lastBillNumber < bNI) {
+            } else if (numericBillNumber < bNI) {
 
                 throw new SetBillNumberExecption("Configure correctamente la numeracion de la factura");
             }
 
-            billNumber = toolBox.concatenateDigits(pfx, lastBillNumber);
-            billNumber ++;
             lastSettings.setLastBillNumber(billNumber);
             settingsParkingRepository.save(lastSettings);
             return billNumber;
 
         }
 
-        billNumber = toolBox.concatenateDigits(pfx, bNI) + 1;
         lastSettings.setLastBillNumber(billNumber);
         settingsParkingRepository.save(lastSettings);
         return billNumber;

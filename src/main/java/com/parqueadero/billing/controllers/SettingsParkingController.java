@@ -15,16 +15,18 @@ public class SettingsParkingController {
     private final SettingsParkingRepository settingsParkingRepository;
 
     //endpoint to modify parking settings
-    @GetMapping("/Settings")
+    @GetMapping("/settings")
     SettingsParking getActualSettings() {
         List<SettingsParking> settings=settingsParkingRepository.findAll();
         return settings.get(0);
     }
-    @PostMapping("/Settings")
+    @PostMapping("/settings")
     SettingsParking updateSettings(@RequestBody SettingsParking settingsParking) {
         List<SettingsParking> settings=settingsParkingRepository.findAll();
         SettingsParking newSettingsParking = settings.get(0);
-
+        newSettingsParking.setAdmin(settingsParking.getAdmin());
+        newSettingsParking.setNameParking(settingsParking.getNameParking());
+        newSettingsParking.setAdressParking(settingsParking.getAdressParking());
         newSettingsParking.setCapacity(settingsParking.getCapacity());
         newSettingsParking.setMinutePrice(settingsParking.getMinutePrice());
         newSettingsParking.setPrefix(settingsParking.getPrefix());

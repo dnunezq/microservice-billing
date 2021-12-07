@@ -10,22 +10,27 @@ import lombok.Setter;
 public class SettingsParking {
     @Id
     private String admin;
+    private String nameParking;
+    private String adressParking;
     private int minutePrice;
     private int capacity;
-    private Long prefix;
-    private Long BillNumberInit;
-    private Long BillNumberEnd;
-    private Long lastBillNumber;
+    private String prefix;
+    private Long billNumberInit;
+    private Long billNumberEnd;
+    private String lastBillNumber;
     //private String DIANresolution;
 
 
     public SettingsParking() {
         this.admin = "admin";
+        this.nameParking="parking";
+        this.adressParking ="adressParking";
         this.minutePrice = 37;
         this.capacity = 3;
-        this.BillNumberInit = (long) 10000000;
-        this.BillNumberEnd = (long) 10999999;
-        this.prefix = (long) 9999;
+        this.billNumberInit = (long) 100000;
+        this.billNumberEnd = (long) 999999;
+        this.lastBillNumber="0";
+        this.prefix = "9999";
     }
 
 }
