@@ -3,6 +3,7 @@ package com.parqueadero.billing.controllers;
 
 import com.parqueadero.billing.exceptions.AlreadyClientExistException;
 import com.parqueadero.billing.exceptions.ClientNotFoundException;
+import com.parqueadero.billing.exceptions.SetBillNumberExecption;
 import com.parqueadero.billing.models.Client;
 import com.parqueadero.billing.models.SettingsParking;
 import com.parqueadero.billing.repositories.ClientRepository;
@@ -39,14 +40,20 @@ public class ClientController {
     //endpoint to create a new client
     @PostMapping("/create")
     Client CreateClient(@RequestBody Client client) {
-        if(clientRepository.findByLicensePlateAndState(client.getLicensePlate(),"active").size()>0){
+        List <Client> clients=clientRepository.findByState("active");
+        List <SettingsParking> settings=settingsParkingRepository.findAll();
+
+        if (clients.size()>=settings.get(0).getCapacity()) {
+            throw new AlreadyClientExistException("Ya no hay espacio para más clientes");
+        }else if(clientRepository.findByLicensePlateAndState(client.getLicensePlate(),"active").size()>0){
             throw new AlreadyClientExistException("Ya existe un vehiculo con las misma referencia en el parqueadero");
-        }
+        }else{ 
         client.setState("active");
         client.setEntryDate(new Date());
         return clientRepository.save(client);
+        }
     }
-    //endpoint to show client billing
+    //endpoint to consult client's billing
     @GetMapping("/Clients/{licensePlate}")
     Client getBillingClient(@PathVariable String licensePlate) {
         List<Client> activeClients = clientRepository.findByLicensePlateAndState(licensePlate,"active");
@@ -68,13 +75,68 @@ public class ClientController {
     //Endpoint to save client billing
     @PostMapping("/Clients/{licensePlate}")
     Client SaveBillingClient(@RequestBody Client client) {
-        Client exitClient = clientRepository.findByLicensePlateAndState(client.getLicensePlate(),"active").get(0);
+        Client exitClient;
+        try{
+         exitClient= clientRepository.findByLicensePlateAndState(client.getLicensePlate(),"active").get(0);
+        }catch(IndexOutOfBoundsException e){
+            throw new ClientNotFoundException("el vehiculo no se encuentra en el parqueadero");
+        }
         exitClient.setState("inactive");
-        exitClient.setCost(client.getCost());
-        exitClient.setUseTime(client.getUseTime());
         exitClient.setExitDate(client.getExitDate());
+        exitClient.setUseTime(client.getUseTime());
+        exitClient.setCost(client.getCost());      
+        exitClient.setBillNumber(constructBillNumber());
         clientRepository.save(exitClient);
         return exitClient;
     }
 
+
+
+
+
+    public Long constructBillNumber() {
+
+        Long billNumber;
+        List <SettingsParking> settings       = settingsParkingRepository.findAll();
+        SettingsParking lastSettings          = settings.get(0);
+        Long pfx                              = lastSettings.getPrefix();
+        Long bNI                              = lastSettings.getBillNumberInit();
+        Long lastBillNumber                   = lastSettings.getLastBillNumber();
+
+        if(lastBillNumber!=0){     
+
+            Long prefixLength                = (long) lastSettings.getPrefix().toString().length();
+            Long bNE                         = lastSettings.getBillNumberEnd();          
+            lastBillNumber                   = toolBox.eliminatePrefix(lastBillNumber, prefixLength);
+
+            if(lastBillNumber > bNE - 1000) {
+
+                billNumber = toolBox.concatenateDigits(pfx, bNI) + 1;
+                lastSettings.setLastBillNumber(billNumber);
+                settingsParkingRepository.save(lastSettings);
+                return billNumber;
+
+            } else if (lastBillNumber == bNE) {
+
+                throw new SetBillNumberExecption("Debe solicitar una nueva resolución a la DIAN");
+
+            } else if (lastBillNumber < bNI) {
+
+                throw new SetBillNumberExecption("Configure correctamente la numeracion de la factura");
+            }
+
+            billNumber = toolBox.concatenateDigits(pfx, lastBillNumber);
+            billNumber ++;
+            lastSettings.setLastBillNumber(billNumber);
+            settingsParkingRepository.save(lastSettings);
+            return billNumber;
+
+        }
+
+        billNumber = toolBox.concatenateDigits(pfx, bNI) + 1;
+        lastSettings.setLastBillNumber(billNumber);
+        settingsParkingRepository.save(lastSettings);
+        return billNumber;
+
+    }
 }

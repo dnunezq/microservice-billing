@@ -11,16 +11,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Getter
 public class Client {
     @Id
-    @Getter private  String id;
-    @Getter @Setter private String licensePlate;
-    @Getter @Setter private Date entryDate;
-    @Getter @Setter private Date exitDate;
-    @Getter @Setter private int useTime;
-    @Getter @Setter private double cost;
-    @Getter @Setter private String state;
-
-
-
+     private  String id;
+     @Setter private Long BillNumber;
+     @Setter private String licensePlate;
+     @Setter private Date entryDate;
+     @Setter private Date exitDate;
+     @Setter private int useTime;
+     @Setter private double cost;
+     @Setter private String state;    
 }

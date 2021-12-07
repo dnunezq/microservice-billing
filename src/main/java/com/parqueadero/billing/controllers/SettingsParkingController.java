@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Optional;
+//import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -23,11 +23,13 @@ public class SettingsParkingController {
     @PostMapping("/Settings")
     SettingsParking updateSettings(@RequestBody SettingsParking settingsParking) {
         List<SettingsParking> settings=settingsParkingRepository.findAll();
-        SettingsParking newSettingsParking;
-        newSettingsParking=settings.get(0);
+        SettingsParking newSettingsParking = settings.get(0);
 
         newSettingsParking.setCapacity(settingsParking.getCapacity());
         newSettingsParking.setMinutePrice(settingsParking.getMinutePrice());
+        newSettingsParking.setPrefix(settingsParking.getPrefix());
+        newSettingsParking.setBillNumberInit(settingsParking.getBillNumberInit());
+        newSettingsParking.setBillNumberEnd(settingsParking.getBillNumberEnd());
         settingsParkingRepository.save(newSettingsParking);
         return newSettingsParking;
     }
