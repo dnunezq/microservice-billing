@@ -6,7 +6,8 @@ import java.util.List;
 
 
 public interface ClientRepository extends MongoRepository <Client, String> {
-List<Client> findByState(String state);
-List<Client> findByLicensePlateAndState(String licensePlate,String state);
+    Client findClientById(String id);
+    List<Client> findByState(String state);
+    List<Client> findByLicensePlateAndState(String licensePlate,String state);
 
 }
