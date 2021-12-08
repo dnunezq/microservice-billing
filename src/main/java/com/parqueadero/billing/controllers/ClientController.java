@@ -55,10 +55,9 @@ public class ClientController {
         return result;
     }
     //endpoint for inactive clients
-    @GetMapping("/historical")
-    ResultHistorical getHistoricalClients(@RequestBody FilterInput filterInput) {
-        String typeDate=filterInput.getTypeDate();
-        String date= filterInput.getDate();
+    @GetMapping("/historical/{typeDate}/{date}")
+    ResultHistorical getHistoricalClients(@PathVariable String typeDate,@PathVariable String date) {
+
         ResultHistorical resultHistorical=new ResultHistorical();
         List<Client> clients=new ArrayList<Client>();
         float totalEarnings=0;
@@ -166,7 +165,7 @@ public class ClientController {
         Earnings newEarnings;
         if(actualEarnings.size()==0){
             newEarnings=new Earnings();
-            newEarnings.getIdClients().add(client.getId());
+            newEarnings.getIdClients().add(exitClient.getId());
             newEarnings.setDay(formatDay.format(exitClient.getExitDate()));
             newEarnings.setMonth(formatMonth.format(exitClient.getExitDate()));
             newEarnings.setYear(formatYear.format(exitClient.getExitDate()));
