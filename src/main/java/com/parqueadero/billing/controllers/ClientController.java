@@ -67,9 +67,9 @@ public class ClientController {
             }
         }
         else if(typeDate.equals("day")){
-            System.out.println(date);
+
             List<Earnings> allEarnings=earningsRepository.findByDay(date);
-            System.out.println(allEarnings);
+
             for(Earnings earnings:allEarnings){
                 for(String idDayClients: earnings.getIdClients())
                     clients.add(clientRepository.findClientById(idDayClients));
@@ -77,7 +77,7 @@ public class ClientController {
             }
         }
         else if(typeDate.equals("month")){
-            System.out.println(date.substring(0,7));
+
             List<Earnings> allEarnings=earningsRepository.findByMonth(date.substring(0,7));
 
             for(Earnings earnings:allEarnings){
@@ -87,7 +87,7 @@ public class ClientController {
             }
         }
         else if(typeDate.equals("year")){
-            System.out.println(date.substring(7));
+
             List<Earnings> allEarnings=earningsRepository.findByYear(date.substring(0,4));
             for(Earnings earnings:allEarnings){
                 for(String idDayClients: earnings.getIdClients())
@@ -157,9 +157,9 @@ public class ClientController {
 
         exitClient.setBillNumber(constructBillNumber());
         clientRepository.save(exitClient);
-        System.out.println("--------------------------***************"+exitClient.getExitDate());
+
         List<Earnings> actualEarnings=earningsRepository.findByDay(formatDay.format(exitClient.getExitDate()));
-        System.out.println("--------------------------***************"+actualEarnings);
+
         Earnings newEarnings;
         if(actualEarnings.size()==0){
             newEarnings=new Earnings();
