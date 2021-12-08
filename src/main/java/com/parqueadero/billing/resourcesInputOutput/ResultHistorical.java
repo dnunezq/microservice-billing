@@ -1,15 +1,17 @@
-package com.parqueadero.billing.controllers;
+package com.parqueadero.billing.resourcesInputOutput;
 
 import com.parqueadero.billing.models.Client;
 import lombok.*;
-
 import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Getter
 @Setter
-public class ClientsAndSpace {
+public class ResultHistorical {
+
     private List<Client> clients;
-    private int capacity;
+    private double earnings;
+
+
 }

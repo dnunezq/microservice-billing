@@ -10,6 +10,9 @@ import com.parqueadero.billing.models.SettingsParking;
 import com.parqueadero.billing.repositories.ClientRepository;
 import com.parqueadero.billing.repositories.EarningsRepository;
 import com.parqueadero.billing.repositories.SettingsParkingRepository;
+import com.parqueadero.billing.resourcesInputOutput.ClientsAndSpace;
+import com.parqueadero.billing.resourcesInputOutput.FilterInput;
+import com.parqueadero.billing.resourcesInputOutput.ResultHistorical;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -53,9 +56,9 @@ public class ClientController {
     }
     //endpoint for inactive clients
     @GetMapping("/historical")
-    ResultHistorical getHistoricalClients(@RequestBody Map<String, String> json ) {
-        String typeDate=json.get("typeDate");
-        String date=json.get("date");
+    ResultHistorical getHistoricalClients(@RequestBody FilterInput filterInput) {
+        String typeDate=filterInput.getTypeDate();
+        String date= filterInput.getDate();
         ResultHistorical resultHistorical=new ResultHistorical();
         List<Client> clients=new ArrayList<Client>();
         float totalEarnings=0;
