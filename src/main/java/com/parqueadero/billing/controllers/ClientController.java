@@ -174,7 +174,7 @@ public class ClientController {
         }
         else{
             newEarnings=actualEarnings.get(0);
-            newEarnings.getIdClients().add(client.getId());
+            newEarnings.getIdClients().add(exitClient.getId());
             newEarnings.setDay(formatDay.format(exitClient.getExitDate()));
             newEarnings.setMonth(formatMonth.format(exitClient.getExitDate()));
             newEarnings.setYear(formatYear.format(exitClient.getExitDate()));
